@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+title: "Healthcare Conflict Resolution Benchmark (HCRB)"
+message: "If you use this repository or dataset, please cite the associated paper (to be updated upon publication)."
+type: dataset
+authors:
+  - family-names: "ADD"
+    given-names: "AUTHOR"
+  # - family-names: "ADD"
+  #   given-names: "COAUTHOR"
+date-released: 2026-01-01
+version: "0.1.0"
+license: "MIT"
+repository-code: "REPLACE_WITH_YOUR_REPO_URL"
+keywords:
+  - "benchmark"
+  - "healthcare"
+  - "conflict resolution"
+  - "LLM evaluation"
+preferred-citation:
+  type: article
+  title: "Evaluating Conflict-Resolution Decision-Making in Large Language Models Using Healthcare Scenarios"
+  authors:
+    - family-names: "ADD"
+      given-names: "AUTHOR"
+  year: 2026
+  journal: "To appear"
+  url: "REPLACE_WITH_PAPER_URL_OR_ARXIV"
