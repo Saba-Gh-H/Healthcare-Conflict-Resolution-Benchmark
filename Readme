@@ -1,0 +1,111 @@
+# How Do LLMs Handle Conflict in Healthcare?
+## Hierarchy, Collaboration Defaults, and User Autonomy
+
+**Authors:** Saba Ghanbari Haez, Claudio Giuliano, Renan Lirio De Souza, Mauro Dragoni  
+**Affiliation:** Digital Health & Wellbeing Research Center, Fondazione Bruno Kessler (FBK), Trento, Italy
+
+- 📄 **Paper (PDF):** `./paper/2026___AIME___ConflictResolution.pdf` *(update path/name as needed)*
+- 🔗 **Venue page / preprint:** *(add link)*
+- 🔗 **ACL Anthology / DOI:** *(add link when available)*
+
+---
+
+## Abstract
+Large Language Models (LLMs) are increasingly used as conversational advisors in healthcare, but we know much less about how they advise users in **healthcare conflicts where power differences matter** (e.g., patient vs. clinician, junior vs. senior staff). We introduce a **Thomas–Kilmann–grounded benchmark** of **150 short healthcare conflict vignettes**, each paired with **five response options** representing common conflict styles (**accommodate, assert, compromise, collaborate, avoid**). We evaluate multiple LLM families in both **single-turn (stateless)** and **history-conditioned** settings and compare their selections with a small human-judgment study. Overall, models strongly **over-default to collaboration**, with assertion a distant second, and very little accommodation or avoidance—highlighting the need for **conflict-aware evaluation and calibration** to better support user autonomy.
+
+---
+
+## What is this benchmark?
+This repository contains a forced-choice benchmark for analyzing how LLMs recommend conflict-handling strategies in healthcare scenarios—especially under **hierarchy / power asymmetries**.
+
+### Core design
+- **N = 150** short healthcare conflict vignettes
+- Balanced by hierarchy:
+  - **Q1–Q75:** focal actor is **lower power** (e.g., patient, junior staff)
+  - **Q76–Q150:** focal actor is **higher power** (e.g., attending, supervisor, institution)
+- Each vignette includes **five** concise options (A–E), mapped to Thomas–Kilmann conflict modes:
+
+| Option | Conflict mode | Meaning (short) |
+|---|---|---|
+| **A** | Accommodate / Conform | Yield / comply |
+| **B** | Assert / Compete | Push back / insist |
+| **C** | Compromise | Split the difference |
+| **D** | Collaborate | Joint problem-solving |
+| **E** | Avoid / Defer | Postpone / step away |
+
+Models are instructed to pick the **single best** option for the focal actor and provide a brief justification.
+
+---
+
+## Evaluation protocols (in the paper)
+We analyze model behavior under two main settings:
+
+1. **Non-informed (stateless):** each vignette answered independently  
+2. **Informed (history-conditioned):** models see their own prior Q/A pairs and are asked to remain consistent where appropriate
+
+We also test robustness using different decoding temperatures (e.g., **T = 0, 0.8, 1.5**).
+
+**Main qualitative finding:** across models, choices concentrate heavily on **collaboration (D)**, with **assertion (B)** typically second, and **accommodation (A)** / **avoidance (E)** rare.
+
+---
+
+## Repository structure
+> Update these paths to match your repo layout.
+
+Typical layout:
+.
+├── data/
+│ ├── vignettes.csv # or .jsonl (one row/item per vignette)
+│ └── README.md # data dictionary (optional)
+├── prompts/
+│ └── prompt_template.txt
+├── scripts/
+│ ├── run_benchmark.py # run inference + save outputs
+│ └── analyze_results.py # aggregate counts, plots
+├── results/
+│ ├── model_outputs/ # raw outputs
+│ └── summaries/ # tables/figures
+├── paper/
+│ └── 2026___AIME___ConflictResolution.pdf
+└── README.md
+
+
+---
+
+## Quickstart
+> If your repo already has scripts/notebooks, replace the commands below with the real ones.
+
+### 1) Create a Python environment
+```bash
+python -m venv .venv
+# Windows:
+.venv\Scripts\activate
+pip install -r requirements.txt
+
+python scripts/run_benchmark.py \
+  --data data/vignettes.csv \
+  --model gpt-4.1 \
+  --temperature 0 \
+  --protocol non_informed \
+  --out results/model_outputs/gpt41_T0_non_informed.jsonl
+
+python scripts/run_benchmark.py \
+  --data data/vignettes.csv \
+  --model gpt-4.1 \
+  --temperature 0 \
+  --protocol non_informed \
+  --out results/model_outputs/gpt41_T0_non_informed.jsonl
+
+@inproceedings{ghanbarihaez2026healthcareconflict,
+  title     = {How Do LLMs Handle Conflict in Healthcare? Hierarchy, Collaboration Defaults, and User Autonomy},
+  author    = {Ghanbari Haez, Saba and Giuliano, Claudio and De Souza, Renan Lirio and Dragoni, Mauro},
+  booktitle = {AIME 2026 (to appear)},
+  year      = {2026}
+}
+
+Contact
+
+For questions or collaborations:
+
+Saba Ghanbari Haez — sghanbarihaez@fbk.eu
+
