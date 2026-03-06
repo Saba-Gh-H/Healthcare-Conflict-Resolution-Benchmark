@@ -38,18 +38,14 @@ detailed documentation.
 
 ## Title
 
-**Evaluating Conflict-Resolution Decision-Making in Large Language
-Models Using Healthcare Scenarios**
+**Evaluating Conflict-Resolution Decision-Making in Large Language Models Using Healthcare Scenarios**
 
 ------------------------------------------------------------------------
 
 ## Authors
 
-*(Author list will be finalized upon publication)*
 
-Example placeholder:
-
--   First Author\
+-   Saba Ghanbari Haez
 -   Second Author\
 -   Third Author
 
