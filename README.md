@@ -134,6 +134,7 @@ Each option corresponds to a specific **conflict management strategy**.
 
 # ⚖️ Conflict Resolution Strategies
 
+
   Option   Strategy
   -------- -----------------------
   **A**    Conform / Accommodate
