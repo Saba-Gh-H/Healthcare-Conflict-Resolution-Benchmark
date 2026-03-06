@@ -137,9 +137,13 @@ Each option corresponds to a specific **conflict management strategy**.
   Option   Strategy
   -------- -----------------------
   **A**    Conform / Accommodate
+  
   **B**    Assert / Compete
+  
   **C**    Compromise
+  
   **D**    Collaborate
+  
   **E**    Avoid / Withdraw
 
 Participants and models select the option they consider the most
