@@ -1,4 +1,4 @@
-# Evaluating Conflict-Resolution Decision-Making in Large Language Models Using Healthcare Scenarios 
+# Evaluating Conflict-Resolution and Decision-Making in Large Language Models Using Healthcare Scenarios 
   Healthcare Conflict Resolution Benchmark (HCRB)
 
 **Benchmark for evaluating conflict-resolution decision making in Large
