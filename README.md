@@ -1,206 +1,278 @@
-
 # Healthcare Conflict Resolution Benchmark (HCRB)
 
-## Overview
-This repository contains the **Healthcare Conflict Resolution Benchmark (HCRB)** and the experimental pipeline used to evaluate **large language models (LLMs)** and **human participants** on healthcare conflict decision‑making scenarios.
+**Benchmark for evaluating conflict-resolution decision making in Large
+Language Models and humans**
 
-The benchmark evaluates how models and humans choose between different **conflict‑resolution strategies** when faced with realistic healthcare scenarios involving:
+------------------------------------------------------------------------
 
-- clinical decision constraints
-- hierarchical roles in healthcare teams
-- interpersonal disagreement
-- ethical or procedural tensions
+## 📌 Overview
+
+This repository contains the **Healthcare Conflict Resolution Benchmark
+(HCRB)** and the experimental pipeline used to evaluate **Large Language
+Models (LLMs)** and **human participants** on healthcare conflict
+decision-making scenarios.
+
+The benchmark evaluates how models and humans choose between different
+**conflict-resolution strategies** when faced with realistic healthcare
+scenarios involving:
+
+-   clinical decision constraints\
+-   hierarchical roles in healthcare teams\
+-   interpersonal disagreement\
+-   ethical or procedural tensions
 
 The repository includes:
 
-- benchmark generation scripts
-- validated benchmark scenarios
-- LLM evaluation pipelines
-- human evaluation results
-- aggregated experiment outputs
+-   benchmark generation scripts\
+-   validated benchmark scenarios\
+-   LLM evaluation pipelines\
+-   human evaluation results\
+-   aggregated experiment outputs
 
-Each major component of the repository contains its own README with detailed documentation.
+Each major component of the repository contains its own README with
+detailed documentation.
 
----
+------------------------------------------------------------------------
 
-# Associated Paper
+# 📄 Associated Paper
 
 ## Title
-**Evaluating Conflict‑Resolution Decision‑Making in Large Language Models Using Healthcare Scenarios**
+
+**Evaluating Conflict-Resolution Decision-Making in Large Language
+Models Using Healthcare Scenarios**
+
+------------------------------------------------------------------------
 
 ## Authors
+
 *(Author list will be finalized upon publication)*
 
 Example placeholder:
 
-- First Author  
-- Second Author  
-- Third Author  
-- ...
+-   First Author\
+-   Second Author\
+-   Third Author
 
----
+------------------------------------------------------------------------
 
-## Abstract
+## 🧠 Abstract
 
-Healthcare environments frequently involve situations where professionals must resolve disagreements under time pressure, institutional constraints, and hierarchical dynamics. Understanding how artificial intelligence systems navigate such conflicts is important as large language models (LLMs) increasingly assist with clinical communication and decision support.
+Healthcare environments frequently involve situations where
+professionals must resolve disagreements under time pressure,
+institutional constraints, and hierarchical dynamics. Understanding how
+artificial intelligence systems navigate such conflicts is important as
+large language models increasingly assist with clinical communication
+and decision support.
 
-We introduce the **Healthcare Conflict Resolution Benchmark (HCRB)**, a dataset of structured healthcare conflict scenarios designed to evaluate how LLMs choose between alternative conflict‑management strategies. Each scenario presents a healthcare role facing a disagreement with another party and requires selecting one of five possible response strategies: **conform, assert, compromise, collaborate, or avoid**.
+We introduce the **Healthcare Conflict Resolution Benchmark (HCRB)**, a
+dataset of structured healthcare conflict scenarios designed to evaluate
+how LLMs choose between alternative conflict-management strategies.
 
-The benchmark enables comparison across two experimental settings: a **stateless (non‑informed) setting**, where models evaluate scenarios independently, and a **sequential (informed) setting**, where models can reference previous decisions within a conversation context. In addition to model evaluations, we collect **human participant responses** to establish a baseline for comparison.
+Each scenario presents a healthcare role facing a disagreement with
+another party and requires selecting one of five possible response
+strategies:
 
-Our experiments analyze how different LLMs respond to conflict scenarios, how decision patterns vary across models and decoding conditions, and how model behavior compares to human choices. The benchmark provides a structured framework for studying **social reasoning, role‑aware decision making, and conflict management behavior in AI systems**.
+**conform, assert, compromise, collaborate, or avoid**
 
----
+The benchmark enables comparison across two experimental settings:
 
-# Repository Structure
+-   **Stateless (non-informed)** evaluation\
+-   **Sequential (informed)** evaluation
 
-benchmark_generation/  
-Scenario generation and validation pipeline
+In addition to model evaluations, we collect **human participant
+responses** to establish a baseline for comparison.
 
-Non_informed_Test/  
-Stateless LLM evaluation (no memory between scenarios)
+The benchmark provides a structured framework for studying:
 
-Informed_LLM/  
-Sequential LLM evaluation with conversation history
+-   social reasoning\
+-   role-aware decision making\
+-   conflict management behavior in AI systems.
 
-user_evaluation_results/  
-Human participant responses
+------------------------------------------------------------------------
 
-results/  
-Aggregated experiment outputs
+# 📂 Repository Structure
 
-docs/  
-Additional documentation
+    Healthcare-Conflict-Resolution-Benchmark/
+    │
+    ├── benchmark_generation/      # Scenario generation and validation pipeline
+    │
+    ├── Non_informed_Test/         # Stateless LLM evaluation (no memory)
+    │
+    ├── Informed_LLM/              # Sequential LLM evaluation with history
+    │
+    ├── user_evaluation_results/   # Human participant responses
+    │
+    ├── results/                   # Aggregated experiment outputs
+    │
+    ├── docs/                      # Additional documentation
+    │
+    └── README.md                  # Project overview
 
-Each folder contains its own README explaining the experimental procedures and file structure.
+Each folder contains its own README explaining the experimental
+procedures and file structure.
 
----
+------------------------------------------------------------------------
 
-# Benchmark Dataset
+# 🧩 Benchmark Dataset
 
-The **Healthcare Conflict Resolution Benchmark** consists of synthetic healthcare scenarios designed to evaluate conflict‑resolution decision making.
+The **Healthcare Conflict Resolution Benchmark** consists of synthetic
+healthcare scenarios designed to evaluate **conflict-resolution decision
+making**.
 
-Each scenario includes:
+Each scenario includes structured fields:
 
-- role_who_decides
-- power_level
-- question (40‑word scenario description)
-- option_A
-- option_B
-- option_C
-- option_D
-- option_E
+    role_who_decides
+    power_level
+    question
+    option_A
+    option_B
+    option_C
+    option_D
+    option_E
 
 Each option corresponds to a specific **conflict management strategy**.
 
----
+------------------------------------------------------------------------
 
-# Conflict Resolution Strategies
+# ⚖️ Conflict Resolution Strategies
 
-| Option | Strategy |
-|------|------|
-| A | Conform / Accommodate |
-| B | Assert / Compete |
-| C | Compromise |
-| D | Collaborate |
-| E | Avoid / Withdraw |
+  Option   Strategy
+  -------- -----------------------
+  **A**    Conform / Accommodate
+  **B**    Assert / Compete
+  **C**    Compromise
+  **D**    Collaborate
+  **E**    Avoid / Withdraw
 
-Participants and models select the option they consider the most appropriate response.
+Participants and models select the option they consider the most
+appropriate response.
 
----
+------------------------------------------------------------------------
 
-# Experimental Conditions
+# 🧪 Experimental Conditions
 
-## Non‑Informed Setting
+## 1️⃣ Non-Informed Setting
 
-Each scenario is presented independently to the model.
-
-Characteristics:
-
-- single‑turn prompt
-- no memory of previous questions
-- stateless evaluation
-
-Documentation:
-
-Non_informed_Test/README
-
----
-
-## Informed Setting
-
-The model answers scenarios sequentially with conversation history.
+Each scenario is presented **independently** to the model.
 
 Characteristics:
 
-- previous scenarios remain in context
-- previous model answers are visible
-- models may maintain consistency across decisions
+-   single-turn prompt\
+-   no memory of previous questions\
+-   stateless evaluation
 
 Documentation:
 
-Informed_LLM/README
+    Non_informed_Test/README
 
----
+------------------------------------------------------------------------
 
-# Human Evaluation
+## 2️⃣ Informed Setting
 
-Human participants completed the same benchmark scenarios to provide a **human baseline** for comparison with model behavior.
+The model answers scenarios **sequentially with conversation history**.
+
+Characteristics:
+
+-   previous scenarios remain in context\
+-   previous model answers are visible\
+-   models may maintain consistency across decisions
 
 Documentation:
 
-user_evaluation_results/README
+    Informed_LLM/README
 
----
+------------------------------------------------------------------------
 
-# Benchmark Generation Pipeline
+# 👥 Human Evaluation
 
-Scenarios were created using a multi‑stage pipeline:
+Human participants completed the same benchmark scenarios to provide a
+**human baseline** for comparison with model behavior.
 
-1. Synthetic scenario generation  
-2. LLM‑based validation and repair  
-3. Language and encoding normalization  
+Documentation:
+
+    user_evaluation_results/README
+
+------------------------------------------------------------------------
+
+# ⚙️ Benchmark Generation Pipeline
+
+Scenarios were created using a **multi-stage pipeline**:
+
+    1. Synthetic scenario generation
+    2. LLM-based validation and repair
+    3. Language and encoding normalization
 
 This process ensures:
 
-- realistic healthcare scenarios
-- consistent option structure
-- correct mapping to conflict strategies
+-   realistic healthcare scenarios\
+-   consistent option structure\
+-   correct mapping to conflict strategies
 
----
+------------------------------------------------------------------------
 
-# Citation
+# 📚 Citation
 
-If you use this benchmark or dataset, please cite the associated paper.
+If you use the **Healthcare Conflict Resolution Benchmark (HCRB)** in
+your research, please cite this repository and the associated paper.
 
-Citation information will be updated once the paper is officially published.
+Citation will be updated upon publication.
 
-The final citation and the **paper PDF will be added to this repository upon publication**.
+Example placeholder:
 
----
+``` bibtex
+@misc{hcrb2026,
+  title={Healthcare Conflict Resolution Benchmark (HCRB)},
+  author={Authors},
+  year={2026},
+  note={GitHub repository}
+}
+```
 
-# License
+The final citation and paper PDF will be added once the paper is
+published.
+
+------------------------------------------------------------------------
+
+# 📜 License
 
 This repository is released under the **MIT License**.
 
-See the `LICENSE` file for full license details.
+See:
 
----
+    LICENSE
 
-# Contributing
+for full license details.
 
-We welcome contributions to improve the benchmark, documentation, and analysis tools.
+------------------------------------------------------------------------
+
+# 🤝 Contributing
+
+We welcome contributions that improve:
+
+-   the benchmark\
+-   documentation\
+-   evaluation pipelines
 
 See:
 
-CONTRIBUTING.md
+    CONTRIBUTING.md
 
 for contribution guidelines.
 
----
+------------------------------------------------------------------------
 
-# Notes
+# ⚠️ Notes
 
-- Scenario data is **synthetic** and intended for research evaluation purposes.
-- The benchmark simplifies complex conflict dynamics into structured response options.
-- Real clinical decision‑making may involve additional contextual factors.
+-   Scenario data is **synthetic** and intended for research evaluation
+    purposes.\
+-   The benchmark simplifies complex conflict dynamics into structured
+    response options.\
+-   Real clinical decision-making may involve additional contextual
+    factors.
+
+------------------------------------------------------------------------
+
+## ✉️ Contact
+
+For questions regarding the benchmark or experiments, please open a
+**GitHub issue** or contact the authors.
