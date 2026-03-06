@@ -46,8 +46,9 @@ detailed documentation.
 
 
 -   Saba Ghanbari Haez
--   Second Author\
--   Third Author
+-   Claudio Giuliano
+-   Renan Lirio de Suoza
+-   Mauro Dragoni
 
 ------------------------------------------------------------------------
 
@@ -218,7 +219,7 @@ Example placeholder:
 ``` bibtex
 @misc{hcrb2026,
   title={Healthcare Conflict Resolution Benchmark (HCRB)},
-  author={Authors},
+  author={Ghanbari Haez et al.},
   year={2026},
   note={GitHub repository}
 }
@@ -271,4 +272,4 @@ for contribution guidelines.
 ## ✉️ Contact
 
 For questions regarding the benchmark or experiments, please open a
-**GitHub issue** or contact the authors.
+**GitHub issue** or contact sghanbarihaez@fbk.eu or ghanbari.haez.saba@gmail.com
