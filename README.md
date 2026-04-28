@@ -224,7 +224,7 @@ This repository is released under the **MIT License**. See [`LICENSE`](LICENSE) 
 
 ## 💬 Contact
 
-For questions, suggestions, or collaboration, please open an issue in this repository.
+For questions, suggestions, or collaboration, please open an issue in this repository. Or Contact sghanbarihaez@gmail.com, ghanbari.haez.saba@gmail.com
 
 <div align="center">
 
