@@ -52,6 +52,18 @@ Required columns:
 
 The scenarios should be processed in ascending `number` order so “previous answers” are well-defined.
 
+
+---
+
+## Hierarchy mapping / correction
+
+The benchmark uses the following corrected hierarchy split:
+
+- `Q1--Q75` = **higher-power** focal actor (e.g., attending physician, supervisor, institution)
+- `Q76--Q150` = **lower-power** focal actor (e.g., patient, junior staff, caregiver)
+
+This mapping is used only for hierarchy-based analysis and reporting. Raw scenario text, model choices, rationales, and per-model response files are unchanged. If you regenerate hierarchy tables from informed outputs, make sure the code labels rows with `number <= 75` as higher hierarchy and `number >= 76` as lower hierarchy.
+
 ---
 
 ## Prompting protocol (multi-turn informed)

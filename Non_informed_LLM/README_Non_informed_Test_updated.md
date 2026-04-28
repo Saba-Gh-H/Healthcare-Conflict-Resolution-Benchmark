@@ -50,6 +50,17 @@ Required columns:
 
 ---
 
+## Hierarchy labels used in analysis
+
+Use the corrected hierarchy mapping for all hierarchy-split summaries:
+
+- `Q1--Q75` = **higher-power focal actor**
+- `Q76--Q150` = **lower-power focal actor**
+
+This affects only hierarchy labels and derived hierarchy tables. The scenario text, raw model choices, and merged response files are unchanged.
+
+---
+
 ## Prompting protocol (single-turn)
 
 For each row, `LLM_Test` sends a **fresh, stateless prompt**:
