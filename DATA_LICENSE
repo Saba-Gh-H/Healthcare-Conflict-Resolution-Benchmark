@@ -1,0 +1,49 @@
+Healthcare Conflict Resolution Benchmark (HCRB)
+Benchmark and Data License
+
+Copyright (c) 2026 Saba Ghanbari Haez, Claudio Giuliano,
+Renan Lirio De Souza, and Mauro Dragoni.
+
+The benchmark scenarios, structured benchmark files, annotations,
+human-evaluation materials, and aggregated benchmark results contained in
+this repository are licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0).
+
+You may copy, redistribute, transform, and build upon these benchmark
+materials for any purpose, including commercial purposes, provided that you:
+
+1. Give appropriate credit to the authors.
+2. Provide a link to the CC BY 4.0 licence.
+3. Clearly indicate whether changes were made.
+4. Do not imply that the authors endorse you or your use.
+
+The attribution should include the benchmark name, authors, associated
+publication, and repository:
+
+Healthcare Conflict Resolution Benchmark (HCRB)
+
+Haez, S.G., Giuliano, C., De Souza, R.L., Dragoni, M. (2027).
+How Do LLMs Handle Conflict in Healthcare? Hierarchy, Collaboration
+Defaults, and Autonomy.
+
+In: Andreev, P., Van Woensel, W., Holmes, J., Sauré, A. (eds),
+Artificial Intelligence in Medicine. AIME 2026.
+Lecture Notes in Computer Science, vol. 16748.
+Springer, Cham.
+
+DOI:
+https://doi.org/10.1007/978-3-032-30710-1_42
+
+Repository:
+https://github.com/Saba-Gh-H/Healthcare-Conflict-Resolution-Benchmark
+
+Full citation metadata is available in CITATION.cff and CITATION.bib.
+
+The complete Creative Commons Attribution 4.0 International licence is
+available at:
+
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+Software source code, scripts, and notebooks in this repository are licensed
+separately under the GNU Affero General Public License version 3 only
+(AGPL-3.0-only). See the LICENSE file.
