@@ -1,233 +1,227 @@
-<div align="center">
+# Healthcare Conflict Resolution Benchmark (HCRB)
 
-# 🏥 How Do LLMs Handle Conflict in Healthcare?
-## **Hierarchy, Collaboration Defaults, and Autonomy**
-
-**Saba Ghanbari Haez · Claudio Giuliano · Renan Lirio De Souza · Mauro Dragoni**
-
-[![Paper Status](https://img.shields.io/badge/status-AIME%202026%20submission-blue)]()
-[![Benchmark](https://img.shields.io/badge/benchmark-150%20vignettes-success)]()
-[![Task](https://img.shields.io/badge/task-conflict%20resolution-important)]()
-[![License](https://img.shields.io/badge/license-MIT-lightgrey)]()
-
-</div>
+**Benchmark for evaluating conflict-resolution decision making in Large Language Models and humans**
 
 ---
 
-## 📌 Overview
+## Overview
 
-This repository contains the **Healthcare Conflict Resolution Benchmark (HCRB)**, introduced in the paper:
+This repository contains the **Healthcare Conflict Resolution Benchmark (HCRB)** and the experimental pipeline used to evaluate how **Large Language Models (LLMs)** and human respondents choose between conflict-resolution strategies in healthcare scenarios.
 
-> **How Do LLMs Handle Conflict in Healthcare? Hierarchy, Collaboration Defaults, and Autonomy**
+The benchmark focuses on healthcare conflicts involving:
 
-The benchmark evaluates how Large Language Models (LLMs) respond to **healthcare conflict scenarios** involving **power differences**, such as:
+- clinical decision constraints;
+- hierarchical roles in healthcare teams;
+- interpersonal disagreement;
+- ethical, organizational, or procedural tensions.
 
-- patient vs. clinician
-- junior vs. senior staff
-- clinician vs. institutional constraints
-- family vs. care team disagreement
+The repository includes:
 
-It is designed to study whether LLM advice changes with **hierarchy**, whether models over-default to **collaboration**, and how these patterns compare with **human judgments**.
+- benchmark generation and validation scripts;
+- the validated synthetic scenario set;
+- non-informed and informed LLM evaluation pipelines;
+- human evaluation outputs;
+- aggregated experiment results.
 
----
-
-## 🧾 Abstract
-
-> This study examines how Large Language Models (LLMs) advise users during healthcare conflicts where power differences matter (e.g., patient vs. clinician, junior vs. senior staff). We introduce a Thomas–Kilmann-grounded benchmark of **150 short healthcare conflict vignettes**, each paired with five response options representing common conflict styles (**accommodate, assert, compromise, collaborate, avoid**). We evaluate multiple leading LLM families in both **single-turn (stateless)** and **history-conditioned** settings, and compare their choices with a small human-judgment study. Across models, recommendations concentrate heavily on **collaboration**, with **assertion** a distant second and very little accommodation or avoidance. Models show **hierarchy-sensitive shifts in assertiveness**, while remaining strongly collaboration-dominant overall. Human choices are more varied, suggesting LLMs may over-default to one “best” conflict approach. These findings motivate **conflict-aware evaluation and calibration** to better support autonomy in healthcare advice.
-
-**Keywords:** `Conflict Resolution` · `Large Language Models` · `Bias`
+Each major folder contains its own README with more detailed documentation.
 
 ---
 
-## ✨ What this repository includes
+## Associated paper
 
-- 🧪 **Scenario generation pipeline**
-- ✅ **Scenario validation and repair notebooks**
-- 🤖 **LLM evaluation in non-informed/stateless settings**
-- 🧠 **LLM evaluation in informed/history-conditioned settings**
-- 👥 **Human evaluation data and summaries**
-- 📊 **Aggregated outputs and analysis tables**
+**How Do LLMs Handle Conflict in Healthcare? Hierarchy, Collaboration Defaults, and User Autonomy**
 
----
+Authors: Saba Ghanbari Haez, Claudio Giuliano, Renan Lirio De Souza, and Mauro Dragoni.
 
-## 🧱 Benchmark structure
-
-The benchmark contains **150 synthetic healthcare conflict vignettes**.
-
-Each vignette includes:
-
-- `number`
-- `role_who_decides`
-- `question`
-- `option_A`
-- `option_B`
-- `option_C`
-- `option_D`
-- `option_E`
-
-### 🏛️ Hierarchy split
-
-- **Q1–Q75** → higher-power focal actor
-- **Q76–Q150** → lower-power focal actor
-
-The **focal role** is the advice recipient and decision-maker in the vignette. Other actors mentioned in the scenario provide the surrounding conflict context.
-
-> All scenarios are **synthetic** and are **not based on real patient records or clinician-provided cases**.
+Citation information will be updated after publication.
 
 ---
 
-## ⚖️ Conflict-style options
+## Benchmark dataset
 
-The benchmark is grounded in the **Thomas–Kilmann** conflict framework.
+HCRB contains **150 synthetic healthcare conflict scenarios**. Each scenario presents a focal actor facing a healthcare-related disagreement and asks which response that actor should take.
 
-| Option | Style | Meaning |
-|---|---|---|
-| **A** | Conform / Accommodate | Go along with the other party or existing rule |
-| **B** | Assert / Compete | Stand firmly on one’s own preferred action |
-| **C** | Compromise | Meet in the middle / split the difference |
-| **D** | Collaborate | Seek a joint solution that addresses both sides |
-| **E** | Avoid / Defer | Postpone, withdraw, or sidestep the issue |
+Required scenario fields include:
 
-Participants and models select the option they consider most appropriate for the focal actor.
+```text
+number
+role_who_decides
+question
+option_A
+option_B
+option_C
+option_D
+option_E
+```
 
----
+The focal role is the **advice recipient and decision-maker** in the vignette, not a persona assigned to the LLM. Other actors mentioned in the scenario form the conflict context.
 
-## 🧪 Experimental settings
-
-### 1) 🤖 Non-informed setting
-
-Each scenario is evaluated independently.
-
-- one fresh prompt per scenario
-- no access to previous scenarios
-- no access to previous model answers
-- no conversation history
-
-### 2) 🧠 Informed setting
-
-Each model answers scenarios sequentially.
-
-- previous scenario prompts are included in context
-- the model’s own prior answers are included in context
-- the model can maintain consistency across scenarios when appropriate
-- the core prompt template is otherwise the same as in the non-informed setting
-
-Full prompt templates and response-parsing scripts are included in the repository.
+All scenarios are synthetic and are **not** based on real patient records or clinician-provided cases.
 
 ---
 
-## 🌡️ Temperature settings
+## Correct hierarchy mapping
 
-The non-informed evaluation includes multiple temperature conditions:
+The benchmark is balanced by hierarchy. The correct mapping is:
 
-- **T = 0.0** → deterministic baseline
-- **T = 0.8** → moderate-randomness robustness check
-- **T = 1.5** → high-randomness robustness check
+```text
+Q1--Q75    = higher-power focal actor
+Q76--Q150  = lower-power focal actor
+```
 
-Higher-temperature runs are repeated to summarize **mean counts** and **min–max ranges**.
+Examples of higher-power focal actors include attending physicians, supervisors, or institutions. Examples of lower-power focal actors include patients, junior staff, nurses, caregivers, or family members.
 
----
-
-## 👥 Human evaluation
-
-We collected responses from **9 members of a digital-health research unit** who were familiar with healthcare contexts, though they were **not necessarily clinicians or domain experts**.
-
-This human study is used as an **exploratory baseline** rather than a representative sample of all stakeholders.
-
-### Design
-
-- **18 anchor vignettes** answered by all participants
-- **10 additional assigned questions** per participant
-- **2 repeated anchor items** per participant to assess consistency
+If regenerating hierarchy analyses, use this mapping. Raw scenario text and raw model choices are unchanged; only hierarchy labels and derived hierarchy summaries depend on this mapping.
 
 ---
 
-## 🗂️ Repository structure
+## Conflict-resolution strategies
+
+Each scenario has five response options, mapped to Thomas--Kilmann-style conflict modes:
+
+| Option | Strategy |
+|---|---|
+| A | Conform / Accommodate |
+| B | Assert / Compete |
+| C | Compromise |
+| D | Collaborate |
+| E | Avoid / Defer |
+
+Models and human respondents select the option they consider most appropriate for the focal actor.
+
+---
+
+## Experimental conditions
+
+### 1. Non-informed setting
+
+Each scenario is presented independently to the model.
+
+Characteristics:
+
+- single-turn prompt;
+- no memory of previous questions;
+- no access to previous model answers;
+- stateless evaluation.
+
+See:
+
+```text
+Non_informed_Test/README.md
+```
+
+### 2. Informed setting
+
+The model answers scenarios sequentially with conversation history.
+
+Characteristics:
+
+- previous scenarios and the model's previous answers are included in context;
+- the model may maintain consistency across decisions;
+- outputs can depend on the history window and prompt construction.
+
+See:
+
+```text
+Informed_LLM/README.md
+```
+
+---
+
+## Human evaluation
+
+Human responses are used as an exploratory baseline. The study used responses from **9 members of a digital-health research unit** who were familiar with healthcare contexts but were not necessarily clinicians or domain experts. The sample is not intended to represent patients, clinicians, or all conflict stakeholders.
+
+See:
+
+```text
+user_evaluation_results/README.md
+```
+
+---
+
+## Benchmark generation pipeline
+
+Scenarios were created through a multi-stage pipeline:
+
+1. synthetic scenario and option generation;
+2. validation and repair;
+3. language and encoding normalization;
+4. manual checking for clinical plausibility, role consistency, neutral wording, and conflict-style purity.
+
+GPT-5.2 was used to generate initial scenario templates and options. GPT-5.2-Pro was used as an LLM-as-judge validation step to flag unclear or inconsistent items; it did not assign preferred answers.
+
+See:
+
+```text
+benchmark_generation/README.md
+```
+
+---
+
+## Repository structure
 
 ```text
 Healthcare-Conflict-Resolution-Benchmark/
-├── Scenario_generation/      # Scenario creation, judging, repair, validated files
-├── Non_informed_LLM/         # Stateless LLM evaluation
-├── Informed_LLM/             # History-conditioned LLM evaluation
-├── user_evaluation_results/  # Human evaluation files and outputs
-├── results/                  # Aggregated results and analysis tables
-├── CITATION.cff
+│
+├── benchmark_generation/      # Scenario generation and validation pipeline
+├── Non_informed_Test/         # Stateless LLM evaluation, no history
+├── Informed_LLM/              # Sequential LLM evaluation with history
+├── user_evaluation_results/   # Human evaluation responses and summaries
+├── results/                   # Aggregated experiment outputs
+├── docs/                      # Additional documentation
 ├── CITATION.bib
+├── CITATION.cff
 ├── LICENSE
 └── README.md
 ```
 
 ---
 
-## 🚀 Scenario generation and validation
+## Reproducibility notes
 
-The benchmark was created through a synthetic generation and validation pipeline:
-
-1. generate initial healthcare conflict vignettes and A–E options
-2. check conflict logic, role consistency, neutral wording, and style purity
-3. repair unclear or inconsistent items
-4. manually review final scenarios for plausibility and consistency
-
-- **GPT-5.2** was used for initial scenario generation
-- **GPT-5.2-Pro** was used as an LLM-as-judge step to flag unclear or inconsistent items
-- the judge model was **not used to assign preferred answers**
+- Use the corrected hierarchy mapping above for all hierarchy analyses.
+- Keep outputs from different benchmark versions separate if `main.csv` or scenario text changes.
+- The exact prompt templates and response-parsing scripts are included in the relevant evaluation folders.
+- Temperature conditions and repeated-run settings are documented in the non-informed README.
+- Informed runs depend on conversation history; if resume is used, the conversation should be reconstructed before continuing.
 
 ---
 
-## 📈 Outputs
+## Security checklist
 
-This repository includes:
-
-- per-model response files
-- merged LLM response files
-- informed and non-informed summaries
-- hierarchy analyses
-- temperature sensitivity analyses
-- human evaluation summaries
+- Store `OPENROUTER_API_KEY` in an environment variable.
+- Do not hard-code API keys in notebooks or scripts.
+- Rotate any key that was committed, shared, or shown in screenshots.
+- Do not commit raw secrets or local environment files.
 
 ---
 
-## 🔐 Reproducibility and security
+## License
 
-LLM inference uses **OpenRouter**.
+This repository is released under the **MIT License**. See:
 
-Store your API key as an environment variable:
-
-```bash
-OPENROUTER_API_KEY
+```text
+LICENSE
 ```
 
-Please avoid hard-coding API keys into notebooks or scripts before committing changes.
-
 ---
 
-## 📚 Citation
+## Citation
 
-If you use this benchmark, please cite the associated paper and repository.
+If you use HCRB, please cite the associated paper and this repository. The final citation will be updated after publication.
 
 ```bibtex
 @misc{hcrb2026,
-  title  = {How Do LLMs Handle Conflict in Healthcare? Hierarchy, Collaboration Defaults, and Autonomy},
-  author = {Ghanbari Haez, Saba and Giuliano, Claudio and Lirio De Souza, Renan and Dragoni, Mauro},
-  year   = {2026},
-  note   = {Healthcare Conflict Resolution Benchmark (HCRB), GitHub repository}
+  title = {Healthcare Conflict Resolution Benchmark (HCRB)},
+  author = {Ghanbari Haez, Saba and Giuliano, Claudio and De Souza, Renan Lirio and Dragoni, Mauro},
+  year = {2026},
+  note = {GitHub repository}
 }
 ```
 
 ---
 
-## 📄 License
+## Contact
 
-This repository is released under the **MIT License**. See [`LICENSE`](LICENSE) for details.
-
----
-
-## 💬 Contact
-
-For questions, suggestions, or collaboration, please open an issue in this repository. Or Contact sghanbarihaez@gmail.com, ghanbari.haez.saba@gmail.com
-
-<div align="center">
-
-### ⭐ If you find this repository useful, consider starring it!
-
-</div>
+For questions, please open a GitHub issue or contact the authors.
