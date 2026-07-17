@@ -1,47 +1,100 @@
-# Healthcare Conflict Resolution Benchmark (HCRB)
+<div align="center">
 
-**Benchmark for evaluating conflict-resolution decision making in Large Language Models and humans**
+# 🏥 How Do LLMs Handle Conflict in Healthcare?
+## **Hierarchy, Collaboration Defaults, and Autonomy**
 
----
+**Saba Ghanbari Haez · Claudio Giuliano · Renan Lirio De Souza · Mauro Dragoni**
 
-## Overview
+[![Published Paper](https://img.shields.io/badge/paper-published%20by%20Springer-brightgreen)](https://link.springer.com/chapter/10.1007/978-3-032-30710-1_42)
+[![Benchmark](https://img.shields.io/badge/benchmark-150%20vignettes-success)]()
+[![Task](https://img.shields.io/badge/task-conflict%20resolution-important)]()
+[![Code License](https://img.shields.io/badge/code-AGPL--3.0-blue)](LICENSE)
+[![Data License](https://img.shields.io/badge/data-CC%20BY%204.0-green)](DATA_LICENSE)
 
-This repository contains the **Healthcare Conflict Resolution Benchmark (HCRB)** and the experimental pipeline used to evaluate how **Large Language Models (LLMs)** and human respondents choose between conflict-resolution strategies in healthcare scenarios.
-
-The benchmark focuses on healthcare conflicts involving:
-
-- clinical decision constraints;
-- hierarchical roles in healthcare teams;
-- interpersonal disagreement;
-- ethical, organizational, or procedural tensions.
-
-The repository includes:
-
-- benchmark generation and validation scripts;
-- the validated synthetic scenario set;
-- non-informed and informed LLM evaluation pipelines;
-- human evaluation outputs;
-- aggregated experiment results.
-
-Each major folder contains its own README with more detailed documentation.
+</div>
 
 ---
 
-## Associated paper
+## 📌 Overview
 
-**How Do LLMs Handle Conflict in Healthcare? Hierarchy, Collaboration Defaults, and User Autonomy**
+This repository contains the **Healthcare Conflict Resolution Benchmark (HCRB)**, introduced in the published Springer paper:
 
-Authors: Saba Ghanbari Haez, Claudio Giuliano, Renan Lirio De Souza, and Mauro Dragoni.
+> **How Do LLMs Handle Conflict in Healthcare? Hierarchy, Collaboration Defaults, and Autonomy**
 
-Citation information will be updated after publication.
+📄 **Springer chapter:** [https://link.springer.com/chapter/10.1007/978-3-032-30710-1_42](https://link.springer.com/chapter/10.1007/978-3-032-30710-1_42)  
+🔗 **DOI:** [10.1007/978-3-032-30710-1_42](https://doi.org/10.1007/978-3-032-30710-1_42)
+
+The benchmark evaluates how **Large Language Models (LLMs)** respond to healthcare conflict scenarios involving **power differences**, such as:
+
+- 👩‍⚕️ patient vs. clinician
+- 🧑‍⚕️ junior vs. senior staff
+- 🏥 clinician vs. institutional constraints
+- 👨‍👩‍👧 family vs. care team disagreement
+
+It is designed to study whether LLM advice changes with **hierarchy**, whether models over-default to **collaboration**, and how these patterns compare with **human judgments**.
 
 ---
 
-## Benchmark dataset
+## 🧾 Abstract
 
-HCRB contains **150 synthetic healthcare conflict scenarios**. Each scenario presents a focal actor facing a healthcare-related disagreement and asks which response that actor should take.
+> This study examines how Large Language Models (LLMs) advise users during healthcare conflicts where power differences matter, such as patient–clinician and junior–senior staff disagreements. We introduce a Thomas–Kilmann-grounded benchmark of **150 short healthcare conflict vignettes**, each paired with five response options representing common conflict styles: **accommodate, assert, compromise, collaborate, and avoid**. We evaluate multiple leading LLM families in both **single-turn (stateless)** and **history-conditioned** settings, and compare their choices with a small human-judgment study. Across models, recommendations concentrate heavily on **collaboration**, with **assertion** a distant second and very little accommodation or avoidance. Models show hierarchy-sensitive shifts in assertiveness while remaining strongly collaboration-dominant overall. Human choices are more varied, suggesting that LLMs may over-default to one supposedly “best” conflict approach. These findings motivate conflict-aware evaluation and calibration to better support autonomy in healthcare advice.
 
-Required scenario fields include:
+**Keywords:** `Conflict Resolution` · `Large Language Models` · `Healthcare AI` · `Hierarchy` · `Autonomy` · `Bias`
+
+---
+
+## ✨ What this repository includes
+
+<table>
+<tr>
+<td width="50%">
+
+### 🧪 Benchmark creation
+- Scenario-generation notebooks
+- Scenario validation and repair
+- Role and hierarchy checks
+- Conflict-style consistency checks
+
+</td>
+<td width="50%">
+
+### 🤖 LLM evaluation
+- Non-informed/stateless evaluation
+- Informed/history-conditioned evaluation
+- Multiple temperature conditions
+- Response parsing and aggregation
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 👥 Human evaluation
+- Human response data
+- Majority-agreement analysis
+- Consistency analysis
+- Exploratory human baseline
+
+</td>
+<td width="50%">
+
+### 📊 Results and analysis
+- Per-model response files
+- Hierarchy analysis
+- Temperature sensitivity
+- Aggregated tables and summaries
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🧱 Benchmark structure
+
+The benchmark contains **150 synthetic healthcare conflict vignettes**.
+
+Each vignette includes:
 
 ```text
 number
@@ -54,174 +107,314 @@ option_D
 option_E
 ```
 
-The focal role is the **advice recipient and decision-maker** in the vignette, not a persona assigned to the LLM. Other actors mentioned in the scenario form the conflict context.
-
-All scenarios are synthetic and are **not** based on real patient records or clinician-provided cases.
-
----
-
-## Correct hierarchy mapping
-
-The benchmark is balanced by hierarchy. The correct mapping is:
+### 🏛️ Hierarchy split
 
 ```text
-Q1--Q75    = higher-power focal actor
-Q76--Q150  = lower-power focal actor
+Q1–Q75    → higher-power focal actor
+Q76–Q150  → lower-power focal actor
 ```
 
-Examples of higher-power focal actors include attending physicians, supervisors, or institutions. Examples of lower-power focal actors include patients, junior staff, nurses, caregivers, or family members.
+The **focal role** is the advice recipient and decision-maker in the vignette. Other actors mentioned in the scenario provide the surrounding conflict context.
 
-If regenerating hierarchy analyses, use this mapping. Raw scenario text and raw model choices are unchanged; only hierarchy labels and derived hierarchy summaries depend on this mapping.
+> ⚠️ All scenarios are **synthetic** and are **not based on real patient records or clinician-provided cases**.
 
 ---
 
-## Conflict-resolution strategies
+## ⚖️ Conflict-style options
 
-Each scenario has five response options, mapped to Thomas--Kilmann-style conflict modes:
+The benchmark is grounded in the **Thomas–Kilmann conflict framework**.
 
-| Option | Strategy |
+| Option | Style | Meaning |
+|---|---|---|
+| **A** | Conform / Accommodate | Go along with the other party or existing rule |
+| **B** | Assert / Compete | Stand firmly on one’s preferred action |
+| **C** | Compromise | Meet in the middle or split the difference |
+| **D** | Collaborate | Seek a joint solution that addresses both sides |
+| **E** | Avoid / Defer | Postpone, withdraw, or sidestep the issue |
+
+Participants and models select the option they consider most appropriate for the focal actor.
+
+---
+
+## 🧪 Experimental settings
+
+### 1️⃣ Non-informed setting
+
+Each scenario is evaluated independently.
+
+```text
+✓ one fresh prompt per scenario
+✓ no access to previous scenarios
+✓ no access to previous model answers
+✓ no conversation history
+```
+
+### 2️⃣ Informed setting
+
+Each model answers scenarios sequentially.
+
+```text
+✓ previous scenarios are included in context
+✓ the model’s own previous answers are included
+✓ the model may maintain consistency across decisions
+✓ the core prompt template remains otherwise unchanged
+```
+
+Full prompt templates and response-parsing scripts are included in the repository.
+
+---
+
+## 🌡️ Temperature settings
+
+The non-informed evaluation includes multiple temperature conditions:
+
+| Temperature | Purpose |
 |---|---|
-| A | Conform / Accommodate |
-| B | Assert / Compete |
-| C | Compromise |
-| D | Collaborate |
-| E | Avoid / Defer |
+| **T = 0.0** | Deterministic baseline |
+| **T = 0.8** | Moderate-randomness robustness check |
+| **T = 1.5** | High-randomness robustness check |
 
-Models and human respondents select the option they consider most appropriate for the focal actor.
+Higher-temperature runs are repeated to summarize **mean counts** and **min–max ranges**.
 
 ---
 
-## Experimental conditions
+## 👥 Human evaluation
 
-### 1. Non-informed setting
+We collected responses from **9 members of a digital-health research unit** who were familiar with healthcare contexts, though they were **not necessarily clinicians or domain experts**.
 
-Each scenario is presented independently to the model.
+This human study is used as an **exploratory baseline** rather than a representative sample of all stakeholders.
 
-Characteristics:
-
-- single-turn prompt;
-- no memory of previous questions;
-- no access to previous model answers;
-- stateless evaluation.
-
-See:
+### 📋 Design
 
 ```text
-Non_informed_Test/README.md
-```
-
-### 2. Informed setting
-
-The model answers scenarios sequentially with conversation history.
-
-Characteristics:
-
-- previous scenarios and the model's previous answers are included in context;
-- the model may maintain consistency across decisions;
-- outputs can depend on the history window and prompt construction.
-
-See:
-
-```text
-Informed_LLM/README.md
+18 anchor vignettes          → answered by all participants
+10 additional questions     → assigned per participant
+2 repeated anchor items     → used to assess consistency
 ```
 
 ---
 
-## Human evaluation
-
-Human responses are used as an exploratory baseline. The study used responses from **9 members of a digital-health research unit** who were familiar with healthcare contexts but were not necessarily clinicians or domain experts. The sample is not intended to represent patients, clinicians, or all conflict stakeholders.
-
-See:
-
-```text
-user_evaluation_results/README.md
-```
-
----
-
-## Benchmark generation pipeline
-
-Scenarios were created through a multi-stage pipeline:
-
-1. synthetic scenario and option generation;
-2. validation and repair;
-3. language and encoding normalization;
-4. manual checking for clinical plausibility, role consistency, neutral wording, and conflict-style purity.
-
-GPT-5.2 was used to generate initial scenario templates and options. GPT-5.2-Pro was used as an LLM-as-judge validation step to flag unclear or inconsistent items; it did not assign preferred answers.
-
-See:
-
-```text
-benchmark_generation/README.md
-```
-
----
-
-## Repository structure
+## 🌳 Repository structure
 
 ```text
 Healthcare-Conflict-Resolution-Benchmark/
 │
-├── benchmark_generation/      # Scenario generation and validation pipeline
-├── Non_informed_Test/         # Stateless LLM evaluation, no history
-├── Informed_LLM/              # Sequential LLM evaluation with history
-├── user_evaluation_results/   # Human evaluation responses and summaries
-├── results/                   # Aggregated experiment outputs
-├── docs/                      # Additional documentation
-├── CITATION.bib
+├── Scenario_generation/
+│   ├── Scenario-Generation.ipynb
+│   ├── LLMjudge.ipynb
+│   ├── Nscenarios.csv
+│   ├── judged.csv
+│   ├── judged_fixed.csv
+│   └── README.txt
+│
+├── Non_informed_LLM/
+│   ├── all-responses.ipynb
+│   └── README_Non_informed_Test_updated.md
+│
+├── Informed_LLM/
+│   ├── all-informed-llm-resonses.ipynb
+│   ├── main.csv
+│   └── README_Informed_LLM_updated.md
+│
+├── Human_Evaluation_Results/
+│   ├── Human majority agreement.ipynb
+│   └── consistency.ipynb
+│
 ├── CITATION.cff
+├── CITATION.bib
 ├── LICENSE
+├── DATA_LICENSE
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## Reproducibility notes
+## 🚀 Scenario generation and validation
 
-- Use the corrected hierarchy mapping above for all hierarchy analyses.
-- Keep outputs from different benchmark versions separate if `main.csv` or scenario text changes.
-- The exact prompt templates and response-parsing scripts are included in the relevant evaluation folders.
-- Temperature conditions and repeated-run settings are documented in the non-informed README.
-- Informed runs depend on conversation history; if resume is used, the conversation should be reconstructed before continuing.
-
----
-
-## Security checklist
-
-- Store `OPENROUTER_API_KEY` in an environment variable.
-- Do not hard-code API keys in notebooks or scripts.
-- Rotate any key that was committed, shared, or shown in screenshots.
-- Do not commit raw secrets or local environment files.
-
----
-
-## License
-
-This repository is released under the **MIT License**. See:
+The benchmark was created through a synthetic generation and validation pipeline:
 
 ```text
-LICENSE
+1. Generate healthcare conflict vignettes and A–E options
+2. Check conflict logic, role consistency, wording, and style purity
+3. Repair unclear or inconsistent scenarios
+4. Manually review the final scenarios
+```
+
+- **GPT-5.2** was used for initial scenario generation.
+- **GPT-5.2-Pro** was used as an LLM-as-judge step to flag unclear or inconsistent items.
+- The judge model was **not used to assign preferred answers**.
+
+---
+
+## 📈 Outputs
+
+This repository includes:
+
+```text
+✓ per-model response files
+✓ merged LLM response files
+✓ informed and non-informed summaries
+✓ hierarchy analyses
+✓ temperature-sensitivity analyses
+✓ human-evaluation summaries
 ```
 
 ---
 
-## Citation
+## 🔐 Reproducibility and security
 
-If you use HCRB, please cite the associated paper and this repository. The final citation will be updated after publication.
+LLM inference uses **OpenRouter**.
+
+Store your API key as an environment variable:
+
+```bash
+OPENROUTER_API_KEY
+```
+
+> 🔒 Do not hard-code API keys into notebooks or scripts before committing changes.
+
+---
+
+## 📚 Citations
+
+Please cite **both the published paper and the repository** when using HCRB, its data, code, or results.
+
+---
+
+### 📘 1. Published paper citation
+
+> Haez, S.G., Giuliano, C., De Souza, R.L., Dragoni, M. (2027).  
+> **How Do LLMs Handle Conflict in Healthcare? Hierarchy, Collaboration Defaults, and Autonomy.**  
+> In: Andreev, P., Van Woensel, W., Holmes, J., Sauré, A. (eds), *Artificial Intelligence in Medicine. AIME 2026*.  
+> Lecture Notes in Computer Science, vol. 16748. Springer, Cham.  
+> [https://doi.org/10.1007/978-3-032-30710-1_42](https://doi.org/10.1007/978-3-032-30710-1_42)
+
+#### 🧾 BibTeX — paper
 
 ```bibtex
-@misc{hcrb2026,
-  title = {Healthcare Conflict Resolution Benchmark (HCRB)},
-  author = {Ghanbari Haez, Saba and Giuliano, Claudio and De Souza, Renan Lirio and Dragoni, Mauro},
-  year = {2026},
-  note = {GitHub repository}
+@incollection{haez2027llms,
+  author    = {Haez, Saba Ghanbari and Giuliano, Claudio and De Souza, Renan Lirio and Dragoni, Mauro},
+  title     = {How Do LLMs Handle Conflict in Healthcare? Hierarchy, Collaboration Defaults, and Autonomy},
+  booktitle = {Artificial Intelligence in Medicine},
+  editor    = {Andreev, P. and Van Woensel, W. and Holmes, J. and Sauré, A.},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {16748},
+  publisher = {Springer},
+  address   = {Cham},
+  year      = {2027},
+  doi       = {10.1007/978-3-032-30710-1_42},
+  url       = {https://doi.org/10.1007/978-3-032-30710-1_42},
+  note      = {Presented at AIME 2026; published online 08 July 2026}
 }
 ```
 
 ---
 
-## Contact
+### 🗂️ 2. Repository citation
 
-For questions, please open a GitHub issue or contact the authors.
+> Ghanbari Haez, S., Giuliano, C., De Souza, R.L., Dragoni, M. (2026).  
+> **Healthcare Conflict Resolution Benchmark (HCRB).**  
+> GitHub repository.  
+> [https://github.com/Saba-Gh-H/Healthcare-Conflict-Resolution-Benchmark](https://github.com/Saba-Gh-H/Healthcare-Conflict-Resolution-Benchmark)
+
+#### 🧾 BibTeX — repository
+
+```bibtex
+@misc{hcrb2026,
+  title        = {Healthcare Conflict Resolution Benchmark (HCRB)},
+  author       = {Ghanbari Haez, Saba and Giuliano, Claudio and De Souza, Renan Lirio and Dragoni, Mauro},
+  year         = {2026},
+  howpublished = {GitHub repository},
+  url          = {https://github.com/Saba-Gh-H/Healthcare-Conflict-Resolution-Benchmark},
+  note         = {Benchmark accompanying the paper: How Do LLMs Handle Conflict in Healthcare? Hierarchy, Collaboration Defaults, and Autonomy}
+}
+```
+
+---
+
+### 🔗 Publication details
+
+| Item | Details |
+|---|---|
+| 📄 **Springer chapter** | [View the published paper](https://link.springer.com/chapter/10.1007/978-3-032-30710-1_42) |
+| 🔗 **DOI** | [10.1007/978-3-032-30710-1_42](https://doi.org/10.1007/978-3-032-30710-1_42) |
+| 📅 **Published** | 08 July 2026 |
+| 🏢 **Publisher** | Springer, Cham |
+| 📚 **Series** | Lecture Notes in Computer Science, vol. 16748 |
+| 📕 **Print ISBN** | 978-3-032-30709-5 |
+| 💻 **Online ISBN** | 978-3-032-30710-1 |
+
+Citation metadata is also available in:
+
+```text
+CITATION.cff
+CITATION.bib
+```
+
+---
+
+## 📄 Licensing
+
+This repository contains **two categories of material**, each with its own licence.
+
+<table>
+<tr>
+<td width="50%">
+
+### 💻 Code and notebooks
+
+Licensed under:
+
+```text
+GNU Affero General Public License v3.0
+AGPL-3.0-only
+```
+
+✅ Modifications and redistributed versions must remain under the same licence.  
+✅ Covered source code must remain available under the licence terms.  
+✅ Modified versions offered as network services are subject to AGPL source-sharing requirements.
+
+See [`LICENSE`](LICENSE).
+
+</td>
+<td width="50%">
+
+### 📊 Benchmark and data
+
+Licensed under:
+
+```text
+Creative Commons Attribution 4.0
+CC BY 4.0
+```
+
+✅ Reuse and adaptation are allowed.  
+✅ Appropriate attribution is required.  
+✅ Changes must be indicated.  
+✅ The licence must be linked.
+
+See [`DATA_LICENSE`](DATA_LICENSE).
+
+</td>
+</tr>
+</table>
+
+> ⚠️ This repository is **not licensed under MIT**.  
+> The software licence is **AGPL-3.0-only**, and the benchmark/data licence is **CC BY 4.0**.
+
+---
+
+## 💬 Contact
+
+For questions, suggestions, or collaboration:
+
+- 📧 **FBK email:** [sghanbarihaez@fbk.eu](mailto:sghanbarihaez@fbk.eu)
+- 📧 **Personal email:** [ghanbari.haez.saba@gmail.com](mailto:ghanbari.haez.saba@gmail.com)
+- 💬 **GitHub:** Open an issue in this repository
+
+<div align="center">
+
+### ⭐ If you find this repository useful, consider starring it!
+
+</div>
