@@ -382,6 +382,8 @@ See [`LICENSE`](LICENSE).
 
 ### 📊 Benchmark and data
 
+Copyright (c) 2026 Saba Ghanbari Haez
+
 Licensed under:
 
 ```text
